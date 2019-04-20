@@ -1,0 +1,56 @@
+<%- include('./includes/head.ejs') %>
+</head>
+
+<body>
+<%- include('./includes/navigation.ejs') %>
+
+<main class="centered">
+    <% for ( hotel in htls) {
+    if(htls.hasOwnProperty(hotel)){%>
+
+        <article class="card ">
+            <header class="card__header">
+                <h1 class="hotel__title"><%= htls[hotel].Property_Name %></h1>
+                <input type="hidden" id="name" value="<%= htls[hotel].Property_Name %>">
+            </header>
+            <div class="card__image">
+                <img src="<%= htls[hotel].Image_Url %>"
+                     alt="<%= htls[hotel].Property_Name %>">
+            </div>
+            <div class="card__content">
+                <h3 class="hotel__description"><a href="/hotel/<%= htls[hotel].id %>">Hotel ID: <%= htls[hotel].id %></a> </h3>
+                <p class="hotel__price">Rating: <%= htls[hotel].Site_Review_Rating %></p>
+                <p class="hotel__description">Address: <%= htls[hotel].Address %></p>
+                <p class="hotel__description">Locality: <%= htls[hotel].Locality %></p>
+                <p class="hotel__description">City: <%= htls[hotel].City %></p><br
+                <p class="hotel__description">Description: <%= htls[hotel].Hotel_Description %></p><br>
+                <p class="hotel__price">Facilities: <%= htls[hotel].Room_Facilities %></p><br
+                <p class="hotel__description">Category: <%= htls[hotel].Property_Type %></p>
+                <p class="hotel__price">Type: <%= htls[hotel].Room_Type %></p>
+                <p class="hotel__description">Info: <%= htls[hotel].Additional_info %></p>
+                <p class="hotel__description">Room type: <%= htls[hotel].Room_Type %></p>
+
+            </div>
+
+        </article>
+    <% }} %>
+
+<br><br><br>
+</main>
+
+        <main class="centered">
+            <h2>Recommended Hotels</h2>
+            <div class="grid"></div>
+            <div class="offline"></div>
+            <button type="button" class="recom">See More Recommendations!</button>
+
+        </main>
+
+
+
+
+
+
+<script src="/javascripts/recoms.js"></script>
+
+<%- include('./includes/end.ejs') %>

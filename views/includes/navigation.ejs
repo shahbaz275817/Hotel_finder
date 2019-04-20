@@ -1,0 +1,58 @@
+<div class="backdrop"></div>
+<header class="main-header">
+    <button id="side-menu-toggle">Menu</button>
+    <nav class="main-header__nav">
+        <ul class="main-header__item-list">
+            <li class="main-header__item">
+                <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
+            </li>
+            <li class="main-header__item">
+                <a class="<%= path === '/hotels' ? 'active' : '' %>" href="/all-hotel">All hotels</a>
+            </li>
+
+
+                <li class="main-header__item">
+                    <a class="<%= path === '/admin/add-hotel' ? 'active' : '' %>" href="/admin/add-hotel">Add hotel
+                    </a>
+                </li>
+
+
+        </ul>
+        <ul class="main-header__item-list">
+
+                <li class="main-header__item">
+                    <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                </li>
+                <li class="main-header__item">
+                    <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+                </li>
+
+        </ul>
+    </nav>
+</header>
+
+<nav class="mobile-nav">
+    <ul class="mobile-nav__item-list">
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/' ? 'active' : '' %>" href="/">Home</a>
+        </li>
+        <li class="mobile-nav__item">
+            <a class="<%= path === '/hotels' ? 'active' : '' %>" href="/all-hotel">All hotels</a>
+        </li>
+
+
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/admin/add-hotel' ? 'active' : '' %>" href="/admin/add-hotel">Add hotel
+                </a>
+            </li>
+            
+
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+            </li>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+            </li>
+      
+    </ul>
+</nav>

@@ -1,0 +1,33 @@
+<%- include('./includes/head.ejs') %>
+</head>
+  <body>
+  <%- include('./includes/navigation.ejs') %>
+    <main class="centered">
+        <h1><%= title %></h1>
+        <p>Welcome to <%= title %></p>
+
+        <br>
+        <div class="grid">
+            <article class="card hotel-item">
+
+                 <h3 class="choose"> Choose your location to get started</h3>
+               <h3> <div id="city"></div></h3>
+                <button type="button" class="search_button" id="locate" >Search Hotels</button><br><br>
+                <button type="button" class="location_button" id="locate">Locate Me!</button><br><br>
+
+                <div id="nudge"></div>
+
+            </article>
+        </div>
+
+
+        <div id="map"></div>
+
+
+
+
+    </main>
+
+  <script src="/javascripts/addsw.js"></script>
+
+  <%- include('./includes/end.ejs') %>
