@@ -46,3 +46,19 @@ exports.getHotelByLocation = (req,res,next)=>{
         console.log(err);
     })
 };
+
+exports.saveReviewsData = (request,response)=>{
+    ref = db.ref("/hotel_reviews",);
+
+    return ref.push({
+        id: Number(request.body.id),
+        Rating:Number(request.body.Rating),
+        Review:request.body.Review,
+    })
+        .then(()=>{
+            return response.status(201).json({message:'data saved'})
+        })
+        .catch((err)=>{
+            return response.status(500).json({error:err})
+        })
+};
