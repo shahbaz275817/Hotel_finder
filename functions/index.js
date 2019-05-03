@@ -40,3 +40,17 @@ exports.saveHotelData = functions.https.onRequest((request,response)=>{
     }
 });
 
+
+exports.saveReviewsData = functions.https.onRequest((request,response)=>{
+    return admin.database.ref('/hotel_reviews').push({
+        id: Number(request.body.id),
+        Rating:Number(request.body.Rating),
+        Review:request.body.Review,
+    })
+        .then(()=>{
+            return response.status(201).json({message:'data saved'})
+        })
+        .catch((err)=>{
+            return response.status(500).json({error:err})
+        })
+});

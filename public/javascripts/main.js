@@ -34,7 +34,7 @@ function getAddress (latitude, longitude) {
     $.ajax('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&result_type=administrative_area_level_2'+'&key=' + GOOGLE_MAP_KEY)
 .then(
         function success (response) {
-            //console.log('User\'s Address Data is ', response[0]);
+            console.log('User\'s Address Data is ', response);
             var filtered_array = response.results[0].address_components.filter(function(address_component){
                 return address_component.types.includes("administrative_area_level_2");
             });
