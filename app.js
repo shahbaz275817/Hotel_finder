@@ -3,11 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const session = require('express-session');
 
 var indexRouter = require('./routes/index');
 var hotelRouter = require('./routes/hotels');
 var recomRouter = require('./routes/recom');
+var usersRouter = require('./routes/users');
 var app = express();
 
 // view engine setup
@@ -19,14 +20,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({secret:'dfadfa34234',resave: false,saveUninitialized: false}));
 
 app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use('/user/', usersRouter);
 app.use('/hotel/',hotelRouter);
 app.use('/recommendation/',recomRouter);
 app.use('/offline',indexRouter);
 app.use('/offlineinfo',indexRouter);
 app.use('/all-hotel',indexRouter);
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
@@ -43,6 +47,7 @@ app.use(function(err, req, res, next) {
     res.render('offline',{
         pageTitle: 'N/W Offline',
         path: '/offline',
+        isAuthenticated: req.session.isLoggedIn
     });
 });
 

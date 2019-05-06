@@ -21,6 +21,8 @@ exports.getIndex =  (req, res, next) => {
         title:'Hotel Finder',
         pageTitle: 'Express App',
         path: '/',
+        message: null,
+        isAuthenticated: req.session.isLoggedIn
     });
 };
 
@@ -28,10 +30,13 @@ exports.getOffline = (req,res,next)=>{
     res.render('offline',{
         pageTitle: 'N/W Offline',
         path: '/offline',
+        isAuthenticated: req.session.isLoggedIn
     })
 };
 exports.getOfflineinfo = (req,res,next)=>{
-    res.render('offlineinfo');
+    res.render('offlineinfo',{
+        isAuthenticated: req.session.isLoggedIn
+    });
 };
 
 exports.getAllHotels = (req,res,next) => {
@@ -54,13 +59,14 @@ exports.getAllHotels = (req,res,next) => {
                         htls: hotels,
                         title:'Hotel Finder',
                         pageTitle: 'Express App',
-                        path: '/',
+                        path: '/hotels',
                         currentPage: page,
                         hasNextPage: ITEMS_PER_PAGE * page < totalItems,
                         hasPreviousPage: page > 1,
                         nextPage: page + 1,
                         previousPage: page - 1,
-                        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+                        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE),
+                        isAuthenticated: req.session.isLoggedIn
                     });
                 })
         }

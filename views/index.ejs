@@ -2,7 +2,11 @@
 </head>
   <body>
   <%- include('./includes/navigation.ejs') %>
+
     <main class="centered">
+        <% if (message) { %>
+            <div class="user-message user-message--error"><%= message %></div>
+        <% } %>
         <h1><%= title %></h1>
         <p>Welcome to <%= title %></p>
 
@@ -12,6 +16,7 @@
 
                  <h3 class="choose"> Choose your location to get started</h3>
                <h3> <div id="city"></div></h3>
+                <div id="loc" style="display: none;"></div>
                 <button type="button" class="search_button" id="locate" >Search Hotels</button><br><br>
                 <button type="button" class="location_button" id="locate">Locate Me!</button><br><br>
 

@@ -1,0 +1,13 @@
+    <% if (Object.keys(reviews).length > 0) { %>
+
+    <% for ( review in reviews) {
+    if(reviews.hasOwnProperty(review)){%>
+
+            <div class="card__content">
+                <p class="hotel__price">Rating: <%= reviews[review].Rating %></p>
+                <p class="hotel__description"><%= reviews[review].Review %></p>
+            </div>
+    <% }} %>
+        <% } %>
+
+

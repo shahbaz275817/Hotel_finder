@@ -7,19 +7,21 @@ var serviceAccount = require('../acckey');
     databaseURL: 'https://hotel-finder-e69a6.firebaseio.com/'
 });*/
 var db = admin.database();
-var ref = db.ref("/hotels_new",);
+var ref = db.ref("/hotels_new");
 
 
 exports.getHotel = (req,res,next)=>{
     const hotelId = req.params.hotelId;
     //console.log(hotelId);
+
     ref.orderByChild('id').equalTo(Number(hotelId)).once('value')
         .then(data=> {
             //console.log(data.val());
             res.render('hotel-details', {
                 htls: data.val(),
                 pageTitle: 'Hotel Details',
-                path: '/hotel/'
+                path: '/hotel/',
+                isAuthenticated: req.session.isLoggedIn
             })
         })
         .catch(err => {
@@ -48,8 +50,8 @@ exports.getHotelByLocation = (req,res,next)=>{
 };
 
 exports.saveReviewsData = (request,response)=>{
-    ref = db.ref("/hotel_reviews",);
 
+    ref = db.ref("/hotel_reviews");
     return ref.push({
         id: Number(request.body.id),
         Rating:Number(request.body.Rating),
@@ -61,4 +63,20 @@ exports.saveReviewsData = (request,response)=>{
         .catch((err)=>{
             return response.status(500).json({error:err})
         })
+};
+
+exports.getHotelReviews = (request,response,next) =>{
+    const hotelId = request.params.hotelId;
+    console.log(hotelId);
+    db.ref('hotel_reviews').orderByChild('id').equalTo(Number(hotelId)).once('value')
+        .then(data=> {
+            response.render('reviews', {
+                reviews: data.val(),
+            })
+        })
+        .catch(err => {
+            const error = new Error(err);
+            error.httpStatusCode = 500;
+            return next(error);
+        });
 };

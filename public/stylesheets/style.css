@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
 body {
   padding: 0px;
   margin: 0px;
@@ -8,8 +10,6 @@ a {
   color: #00B7FF;
 }
 
-
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
 
 * {
   box-sizing: border-box;
@@ -41,7 +41,7 @@ form {
 .main-header {
   width: 100%;
   height: 3.5rem;
-  background-color: #00695c;
+  background-color: #3f51b5;
   padding: 0 1.5rem;
   display: flex;
   align-items: center;
@@ -133,7 +133,7 @@ form {
 .mobile-nav__item a.active,
 .mobile-nav__item button:hover,
 .mobile-nav__item button:active {
-  background: #00695c;
+  background: #3f51b5;
   color: white;
   border-radius: 3px;
 }
@@ -177,15 +177,27 @@ form {
 }
 
 .card {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
+  transition: 0.3s;
+  border-radius: 10px;}
+
+.card:hover {
+  box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
 }
 
-.card__header,
+.card__header{
+  background-color: #3f51b5;
+  padding: 1rem;
+  width: content-box;
+  border-radius: 10px 10px 0 0;
+  font-family: "Comic Sans MS", cursive, sans-serif
+;
+}
 .card__content {
   padding: 1rem;
   width: content-box;
-;
-
+  background-color: #fff9c4;
+  border-radius: 0 0 10px 10px;
 }
 
 .card__header h1,
@@ -199,11 +211,14 @@ form {
   width: 100%;
   height: 10rem;
   text-align: center;
+  object-fit: fill;
+
 }
 
 .card__image img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
 }
 
 .card__actions {
@@ -221,8 +236,8 @@ form {
   padding: 0.25rem 1rem;
   text-decoration: none;
   font: inherit;
-  border: 1px solid #00695c;
-  color: #00695c;
+  border: 1px solid #3f51b5;
+  color: #3f51b5;
   background: white;
   border-radius: 3px;
   cursor: pointer;
@@ -230,7 +245,7 @@ form {
 
 .btn:hover,
 .btn:active {
-  background-color: #00695c;
+  background-color: #3f51b5;
   color: white;
 }
 
@@ -268,16 +283,16 @@ form {
 
 .pagination a {
   text-decoration: none;
-  color: #00695c;
+  color: #3f51b5;
   padding: 0.5rem;
-  border: 1px solid #00695c;
+  border: 1px solid #3f51b5;
   margin: 0 1rem;
 }
 
 .pagination a:hover,
 .pagination a:active,
 .pagination a.active {
-  background: #00695c;
+  background: #3f51b5;
   color: white;
 }
 
@@ -311,6 +326,7 @@ form {
 .hotel__title {
   font-size: 1.2rem;
   text-align: center;
+  color: white;
 }
 
 .hotel__price {
@@ -334,6 +350,17 @@ form {
   font-size: 16px;
 }
 .search_button {
+  background-color: #008CBA;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.recom {
   background-color: #008CBA;
   border: none;
   color: white;

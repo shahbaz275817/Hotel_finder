@@ -11,21 +11,25 @@
             </li>
 
 
-                <li class="main-header__item">
-                    <a class="<%= path === '/admin/add-hotel' ? 'active' : '' %>" href="/admin/add-hotel">Add hotel
-                    </a>
-                </li>
+
 
 
         </ul>
         <ul class="main-header__item-list">
+            <% if (!isAuthenticated) { %>
 
                 <li class="main-header__item">
-                    <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+                    <a class="<%= path === '/user/signin' ? 'active' : '' %>" href="/user/signin">Login</a>
                 </li>
                 <li class="main-header__item">
-                    <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+                    <a class="<%= path === '/user/signup' ? 'active' : '' %>" href="/user/signup">Signup</a>
                 </li>
+                <% }
+                else { %>
+                    <li class="main-header__item">
+                        <a class="<%= path === '/user/signout' ? 'active' : '' %>" href="/user/signout">Signout</a>
+                    </li>
+            <% } %>
 
         </ul>
     </nav>
@@ -41,18 +45,21 @@
         </li>
 
 
-            <li class="mobile-nav__item">
-                <a class="<%= path === '/admin/add-hotel' ? 'active' : '' %>" href="/admin/add-hotel">Add hotel
-                </a>
-            </li>
-            
 
-            <li class="mobile-nav__item">
-                <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+        <% if (!isAuthenticated) { %>
+
+
+        <li class="mobile-nav__item">
+                <a class="<%= path === '/user/signin' ? 'active' : '' %>" href="/user/signin">Login</a>
             </li>
             <li class="mobile-nav__item">
-                <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+                <a class="<%= path === '/user/signup' ? 'active' : '' %>" href="/user/signup">Signup</a>
             </li>
-      
+        <% }
+        else { %>
+            <li class="mobile-nav__item">
+                <a class="<%= path === '/user/signout' ? 'active' : '' %>" href="/user/signout">Signout</a>
+            </li>
+        <% } %>
     </ul>
 </nav>
