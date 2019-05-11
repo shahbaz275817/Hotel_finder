@@ -36,8 +36,11 @@ function getAddress (latitude, longitude) {
         function success (response) {
             //console.log('User\'s Address Data is ', response);
             console.log(response);
-           // if(!response.results[0]==undefined){
-                var filtered_city_array = response.results[0].address_components.filter(function(address_component){
+            // console.log(response.results.length);
+          if(response.results.length !== 0){
+              // console.log("if");
+
+              var filtered_city_array = response.results[0].address_components.filter(function(address_component){
                     return address_component.types.includes("administrative_area_level_2");
                 });
                 var city = filtered_city_array.length ? filtered_city_array[0].long_name: "";
@@ -49,15 +52,38 @@ function getAddress (latitude, longitude) {
                     return address_component.types.includes("locality");
                 });
                 var locality = filtered_sublocality_array.length ? filtered_locality_array[0].long_name: "";
-                document.getElementById('city').innerHTML = sublocality+' '+locality;
+                console.log(city+' '+sublocality+' '+locality);
+                document.getElementById('city').innerHTML = sublocality+', '+locality;
                 document.getElementById('loc').innerHTML = city;
-            // }
-            // else{
-            //     area = response.plus_code.compound_code.split(" ")[1];
-            //     city = response.plus_code.compound_code.split(",")[1];
-            //     document.getElementById('city').innerHTML = area+''+city;
-            //     document.getElementById('loc').innerHTML = area.trim();
-            // }
+                document.getElementById('loc1').innerHTML = sublocality;
+            }
+            else{
+                // console.log("else");
+              $.ajax('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&result_type=administrative_area_level_2'+'&key=' + GOOGLE_MAP_KEY)
+                  .then(function success (response) {
+                      console.log(response);
+                      var filtered_city_array = response.results[0].address_components.filter(function(address_component){
+                          return address_component.types.includes("administrative_area_level_2");
+                      });
+                      var city = filtered_city_array.length ? filtered_city_array[0].long_name: "";
+                      console.log(city);
+                      var filtered_state_array = response.results[0].address_components.filter(function(address_component){
+                          return address_component.types.includes("administrative_area_level_1");
+                      });
+                      var state = filtered_state_array.length ? filtered_state_array[0].long_name: "";
+                      document.getElementById('city').innerHTML = city+', '+state;
+                      document.getElementById('loc').innerHTML = city;
+                      document.getElementById('loc1').innerHTML = state;
+
+                  });
+
+               /*area = response.plus_code.compound_code.split(" ")[1].trim();
+                city = response.plus_code.compound_code.split(",")[1].trim();
+                console.log(area+' '+city);
+                document.getElementById('city').innerHTML = area+' '+city;
+                document.getElementById('loc').innerHTML = city;
+                document.getElementById('loc1').innerHTML = area;*/
+           }
 
             $(".choose").hide();
             $(".search_button").show();
@@ -113,10 +139,29 @@ $(".location_button").click(function(){
 });
 
 $(".search_button").click(function () {
-    $.get( "/hotel/location/"+document.getElementById("loc").innerText.split(" ")[0], function( data ) {
-        $(".grid").append(data);
-        $(".search_button").hide();
-    });
+
+    let index =0;
+    if(navigator.onLine){
+        for(let i=index;i<index+15;i++){
+            $.get( "/hotel/location/"+document.getElementById("loc").innerText.split(" ")[0]+"/"+document.getElementById("loc1").innerText+'/'+i, function( data,textStatus, xhr ) {
+                $(".grid").append(data);
+                $(".search_button").hide();
+                console.log(xhr);
+            });
+        }
+    }
+    else{
+        $.get( "/offlineinfo", function( data ) {
+            $(".offline").empty().append(data);
+        });
+    }
+
+
+
+    // $.get( "/hotel/location/"+document.getElementById("loc").innerText.split(" ")[0]+"/"+document.getElementById("loc1").innerText.split(" ")[0], function( data ) {
+    //     $(".grid").append(data);
+    //     $(".search_button").hide();
+    // });
 });
 
 

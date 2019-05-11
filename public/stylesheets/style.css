@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display');
+@import url('https://fonts.googleapis.com/css?family=Lora');
 
 body {
   padding: 0px;
   margin: 0px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px  'Lora', serif;
 }
 
 a {
@@ -20,6 +22,8 @@ a {
 main {
   padding: 1rem;
   margin: auto;
+  font-family: 'Lora', serif;
+
 }
 
 form {
@@ -176,6 +180,13 @@ form {
   align-items: stretch;
 }
 
+.grid1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.26);
   transition: 0.3s;
@@ -190,8 +201,7 @@ form {
   padding: 1rem;
   width: content-box;
   border-radius: 10px 10px 0 0;
-  font-family: "Comic Sans MS", cursive, sans-serif
-;
+  font-family: 'Playfair Display', serif;
 }
 .card__content {
   padding: 1rem;

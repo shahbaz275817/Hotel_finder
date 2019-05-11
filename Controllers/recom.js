@@ -102,7 +102,7 @@ exports.getGraphRecommendations = (req, res, next) => {
     graph.load('./graph.ugd', function() {
 
         //find the hotel node, traverse the graph and get recommendations
-        // get the closest 10 'hotel' nodes, at a minimum depth (distance) of 0
+        // get the closest 'hotel' nodes, at a minimum depth (distance) of 1
         let node = getHotelNode('hotel',hotelName);
         let results = graph.closest(node, {
             compare: function(node) { return node.entity === 'hotel'; },
@@ -114,7 +114,7 @@ exports.getGraphRecommendations = (req, res, next) => {
             return path.end();
         });
 
-        //console.log(resultNodes); // render, whatever you'd like
+        //console.log(resultNodes);
 
         resultNodes.forEach(node=>{
             hotels.push(node.get('hotel_name'));

@@ -1,5 +1,5 @@
-var CACHE_STATIC_NAME = 'static-v23';
-var CACHE_DYNAMIC_NAME = 'dynamic-v23';
+var CACHE_STATIC_NAME = 'static-v27';
+var CACHE_DYNAMIC_NAME = 'dynamic-v27';
 var STATIC_FILES = [
     '/',
     '/javascripts/main.js',

@@ -1,5 +1,7 @@
 var admin = require("firebase-admin");
+const ug = require('ug');
 
+let graph = new ug.Graph();
 var serviceAccount = require('../acckey');
 
 /*admin.initializeApp({
@@ -36,17 +38,81 @@ exports.getRecommendations = (req,res,next)=>{
     console.log("test");
 };
 
+function getLocalityNode(nodes, prop){
+    return graph.nodes(nodes).query().filter({locality: prop}).first();
+}
+function getCityNode(nodes, prop){
+    return graph.nodes(nodes).query().filter({city: prop}).first();
+}
+
 exports.getHotelByLocation = (req,res,next)=>{
     const city = req.params.city.trim();
 
-    ref.orderByChild('City').startAt(city).endAt(city+"\\uf8ff").limitToFirst(15).once('value')
+    /*ref.orderByChild('City').startAt(city).endAt(city+"\\uf8ff").limitToFirst(15).once('value')
       .then(data=>{
           res.render('includes/hotelLoc',{
               htls: data.val(),
           });
       }).catch((err)=>{
         console.log(err);
-    })
+    });*/
+
+    ////////////////////////////////////////////
+    let locality = req.params.sublocality.trim();
+    let queryParam =locality+', '+city;
+    let seq = req.params.seq;
+    let hotels = [];
+    // load graph from flat file into RAM
+    graph.load('./graph.ugd', function() {
+
+        let node = getLocalityNode('locality',queryParam);
+        if (node===null || node === undefined)
+            node = getCityNode('city',city);
+        if (node===null || node === undefined){
+            console.log("fallback");
+            ref.orderByChild('City').startAt(city).endAt(city+"\\uf8ff").limitToFirst(15).once('value')
+                .then(data=>{
+                    res.status = 204;
+                    res.render('includes/hotelLoc',{
+                        htls: data.val(),
+                    },function (err) {
+                        console.log(err);
+                        res.render('includes/nohotels');
+                    });
+                }).catch((err)=>{
+                console.log(err);
+            });
+            return;
+        }
+        let results = graph.closest(node, {
+            compare: function(node) { return node.entity === 'hotel'; },
+            minDepth: 1,
+            count: 250
+        });
+        // results is now an array of Paths, which are each traces from your starting node to your result node...
+        let resultNodes = results.map(function(path) {
+            return path.end();
+        });
+
+        resultNodes.forEach(node=>{
+            hotels.push(node.get('hotel_name'));
+        });
+
+        ref.orderByChild('Property_Name').equalTo(hotels[seq]).once('value')
+            .then(data=>{
+                hotels ={...data.val()};
+                return hotels;
+            })
+            .then(hotels=>{
+                res.render('recoms',{htls:hotels});
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+
+
+    });
+    ///////////////////////////////////////////
 };
 
 exports.saveReviewsData = (request,response)=>{

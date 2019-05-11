@@ -22,6 +22,7 @@ let countries = [];
 let descriptions = [];
 let states = [];
 let sentimentals = [];
+let localities = [];
 
 let location = [];
 let state = [];
@@ -30,6 +31,8 @@ let description = [];
 let category = [];
 let rating = [];
 let sentiment = [];
+let locality = [];
+let areas = [];
 
 // quick and dirty function to get a node by rating
 function getHotelNode(nodes, prop){
@@ -57,6 +60,10 @@ function getSentimentNode(nodes, prop){
     return graph.nodes(nodes).query().filter({sentiment: prop}).first();
 }
 
+function getLocalityNode(node, prop){
+    return graph.nodes(node).query().filter({locality: prop}).first();
+}
+
 
 //fetch data
 ref.orderByChild('Property_Name').once('value')
@@ -74,7 +81,7 @@ ref.orderByChild('Property_Name').once('value')
                 if (descriptions.includes(dat[key].rating) === false) descriptions.push(dat[key].Hotel_Description);
                 if (states.includes(dat[key].rating) === false) states.push(dat[key].State);
                 if (sentimentals.includes(dat[key].Sentimental_Value) === false) sentimentals.push(dat[key].Sentimental_Value);
-
+                if (localities.includes(dat[key].Locality) === false) localities.push((dat[key].Locality.trim()+', '+dat[key].City.trim()));
 
                /* location = {...{hotel_name: dat[key].hotel_name, city:dat[key].city} };
                 category = {...{hotel_name: dat[key].hotel_name, city:dat[key].category} };
@@ -86,6 +93,8 @@ ref.orderByChild('Property_Name').once('value')
                 let coun = {hotel_name: dat[key].Property_Name, country: dat[key].Country};
                 let des = {hotel_name: dat[key].Property_Name, description: dat[key].Hotel_Description};
                 let sen = {hotel_name: dat[key].Property_Name, sentiment: dat[key].Sentimental_Value};
+                let area = {city: dat[key].City, locality: (dat[key].Locality.trim()+', '+dat[key].City.trim())};
+                let areah = {hotel_name: dat[key].Property_Name, locality: (dat[key].Locality.trim()+', '+dat[key].City.trim())};
                 location.push(loc);
                 category.push(cat);
                 rating.push(rat);
@@ -93,9 +102,11 @@ ref.orderByChild('Property_Name').once('value')
                 country.push(coun);
                 description.push(des);
                 sentiment.push(sen);
+                locality.push(area);
+                areas.push(areah);
             }
         }
-        return hotels, cities, categories, ratings,country,countries,description,descriptions,states,state, sentiment, sentimentals, location, category, rating;
+        return hotels, cities, categories, ratings,country,countries,description,descriptions,states,state, sentiment, sentimentals, location, category, rating, locality, localities, areas;
     })
     .then(()=>{
         // Add to graph
@@ -129,6 +140,10 @@ ref.orderByChild('Property_Name').once('value')
             graph.createNode('sentiment', {sentiment: sentiment});
         });
 
+        localities.forEach(function (locality) {
+            graph.createNode('locality', {locality: locality});
+        })
+
     })
     .then(()=>{
         location.forEach(function(dat) {
@@ -137,6 +152,20 @@ ref.orderByChild('Property_Name').once('value')
             graph.createEdge('location').link(
                 getHotelNode('hotel', dat.hotel_name),
                 getCityNode('city', dat.location)
+            ).setDistance(1);
+        });
+
+        locality.forEach(function (dat) {
+           graph.createEdge('locality').link(
+               getCityNode('city',dat.city),
+               getLocalityNode('locality',dat.locality)
+           ).setDistance(1);
+        });
+
+        areas.forEach(function (dat) {
+            graph.createEdge('area').link(
+                getHotelNode('hotel', dat.hotel_name),
+                getLocalityNode('locality',dat.locality)
             ).setDistance(1);
         });
 
